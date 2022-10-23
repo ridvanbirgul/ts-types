@@ -25,4 +25,55 @@ namespace DataType {
             return this.val;
         }
     }
+
+    export class BinaryTree<Type> {
+        private rootNode: TreeNode<Type> | null;
+
+        constructor() {
+            this.rootNode = null;
+        }
+
+        insert(value: Type) {
+            if (this.rootNode) {
+                let nodeAdded: boolean = false;
+                let node = this.rootNode;
+                while (!nodeAdded) {
+                    if (node.Val > value) {
+                        if (node.Left)
+                            node = node.Left;
+                        else {
+                            node.Left = new TreeNode(value, null, null);
+                            nodeAdded = true;
+                        }
+                    } else {
+                        if (node.Right) {
+                            node = node.Right;
+                        } else {
+                            node.Right = new TreeNode(value, null, null);
+                            nodeAdded = true;
+                        }
+                    }
+                }
+            } else {
+                this.rootNode = new TreeNode(value, null, null);
+            }
+        }
+
+        remove(value: Type): boolean {
+            if (this.rootNode) {
+                let node = this.rootNode;
+                let parent = null;
+                while(node){
+                    if(node.Val === value){
+                        if(parent){
+                            
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+    }
 }
