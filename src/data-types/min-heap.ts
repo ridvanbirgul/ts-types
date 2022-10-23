@@ -1,4 +1,4 @@
-class MaxHeap {
+class MinHeap {
   private arr: Array<number>;
 
   constructor() {
@@ -13,7 +13,10 @@ class MaxHeap {
     let i = 0;
     while (this.hasLeftItem(i)) {
       let smallerIndex = this.getLeftIndex(i);
-      if (this.hasRightItem(i) && this.arr[this.getRightIndex(i)] > this.arr[smallerIndex]) {
+      if (
+        this.hasRightItem(i) &&
+        this.arr[this.getRightIndex(i)] < this.arr[smallerIndex]
+      ) {
         smallerIndex = this.getRightIndex(i);
       }
 
@@ -28,7 +31,7 @@ class MaxHeap {
 
   heapifyUp() {
     let index = this.arr.length - 1;
-    while (this.hasParent(index) && this.parent(index) < this.arr[index]) {
+    while (this.hasParent(index) && this.parent(index) > this.arr[index]) {
       this.swap(this.getParentIndex(index), index);
       index = this.getParentIndex(index);
     }
@@ -86,4 +89,4 @@ class MaxHeap {
   }
 }
 
-export default MaxHeap;
+export default MinHeap;
