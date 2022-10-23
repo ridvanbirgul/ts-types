@@ -9,18 +9,28 @@ class MaxHeap {
     return this.arr;
   }
 
-  heapify(input: Array<number>) {
-    for (let i = 0; i < input.length; i++) {
-      this.arr.push(input[i]);
-      this.findCorrectPlace(i);
+  heapifyDown() {
+    let i = 0;
+    while (this.hasLeftItem(i)) {
+      let smallerIndex = this.getLeftIndex(i);
+      if (this.hasRightItem(i) && this.arr[this.getRightIndex(i)] > this.arr[smallerIndex]) {
+        smallerIndex = this.getRightIndex(i);
+      }
+
+      if (this.arr[i] < this.arr[smallerIndex]) {
+        break;
+      } else {
+        this.swap(smallerIndex, i);
+      }
+      i = smallerIndex;
     }
   }
 
-  findCorrectPlace(i: number) {
-    let parentIndex = this.getParentIndex(i);
-    while (parentIndex >= 0 && this.arr[parentIndex] < this.arr[i]) {
-      this.swap(parentIndex, i);
-      parentIndex = this.getParentIndex(parentIndex);
+  heapifyUp() {
+    let index = this.arr.length - 1;
+    while (this.hasParent(index) && this.parent(index) < this.arr[index]) {
+      this.swap(this.getParentIndex(index), index);
+      index = this.getParentIndex(index);
     }
   }
 
@@ -32,14 +42,37 @@ class MaxHeap {
 
   insert(value: number) {
     this.arr.push(value);
+    this.heapifyUp();
   }
 
-  delete(): number {
-    return 0;
+  poll(): number {
+    let item = this.arr[0];
+    this.arr[0] = this.arr[this.arr.length - 1];
+    this.heapifyDown();
+    return item;
   }
 
   peek(): number {
-    return 0;
+    return this.arr[0];
+  }
+
+  hasParent(i: number): boolean {
+    let parentIndex = this.getParentIndex(i);
+    return parentIndex >= 0;
+  }
+
+  hasLeftItem(i: number): boolean {
+    let leftIndex = this.getLeftIndex(i);
+    return this.arr.length > leftIndex;
+  }
+
+  hasRightItem(i: number): boolean {
+    let rightIndex = this.getRightIndex(i);
+    return this.arr.length > rightIndex;
+  }
+
+  parent(i: number): number {
+    return this.arr[this.getParentIndex(i)];
   }
 
   getLeftIndex(i: number): number {
@@ -49,13 +82,7 @@ class MaxHeap {
     return i * 2 + 2;
   }
   getParentIndex(i: number): number {
-    if (i % 2 === 0) {
-      if (i - 2 < 0) return -1;
-      return Math.floor((this.arr.length - 2) / 2);
-    } else {
-      if (i - 1 < 0) return -1;
-      return Math.floor((this.arr.length - 1) / 2);
-    }
+    return Math.floor((i - 1) / 2);
   }
 }
 
